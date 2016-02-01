@@ -5,7 +5,7 @@
 # www.michaelkummer.com
 # You can use the source as you wish but do so at your own risk
 # Have a backup of your data to avoid accidental loss
-# Last update: 2016-02-01
+# Last update: 2016-01-30
 # Version: 0.1
 # Tested on OS X 10.11.3 El Capitan
 #
