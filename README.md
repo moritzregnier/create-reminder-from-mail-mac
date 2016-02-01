@@ -1,4 +1,4 @@
-# create-reminder-from-mail-mac
+# Create reminder from mail for Mac OS X
 Create a reminder from a selected email message: supports for 6 accounts and avoids duplicates
 
 This AppleScript is a modification of the script found at http://www.michaelkummer.com/2014/03/18/how-to-create-a-reminder-from-an-e-mail/. Thanks Michael for that great job.
