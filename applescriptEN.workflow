@@ -75,7 +75,7 @@ tell application "Mail"
 			tell me
 				activate
 			end tell
-			set theButton to button returned of (display dialog "The selected email matches an existing reminder: '" & theNeedlesName & "'. Would you like to mark the reminder as complete and clear any remaining flags of this message?" with title "Create Reminder from E-Mail" buttons {"Mark complete", "Cancel"} default button 1)
+			set theButton to button returned of (display dialog "The selected email matches an existing reminder: '" & theNeedlesName & "'. Would you like to mark the reminder as complete and clear any remaining flags of this message?" with title "Create Reminder from E-Mail" buttons {"New date", "Cancel", "Mark complete"} default button 3)
 			
 			if theButton is "Mark complete" then
 				tell application "Mail"
@@ -86,7 +86,65 @@ tell application "Mail"
 				set theNeedle to last reminder whose body is theUrl and completed is false
 				set completed of theNeedle to true
 				return
-			else if the_button is "Cancel" then
+			else if theButton is "New date" then
+				# set the new reminder date
+				
+				# present user with a list of follow-up times (in minutes)
+				(choose from list {"Tomorrow", "2 Days", "End of Week", "1 Week", "1 Month", "3 Months"} default items "End of Week" OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
+				
+				set reminderDate to result as text
+				
+				# Exit if user clicks Cancel
+				if reminderDate is "false" then return
+				
+				if reminderDate = "Tomorrow" then
+					# add 1 day and set time to 9h into the day = 9am
+					set remindMeDate to (current date) + 1 * days
+					set time of remindMeDate to 60 * 60 * 9
+					
+				else if reminderDate = "2 Days" then
+					
+					set remindMeDate to (current date) + 2880 * minutes
+					
+				else if reminderDate = "End of Week" then
+					# end of week means Thursday in terms of reminders
+					# get the current day of the week
+					set curWeekDay to weekday of (current date) as string
+					if curWeekDay = "Monday" then
+						set remindMeDate to (current date) + 3 * days
+					else if curWeekDay = "Tuesday" then
+						set remindMeDate to (current date) + 2 * days
+					else if curWeekDay = "Wednesday" then
+						set remindMeDate to (current date) + 1 * days
+						# if it's Thursday, I'll set the reminder for Friday
+					else if curWeekDay = "Thursday" then
+						set remindMeDate to (current date) + 1 * days
+						# if it's Friday I'll set the reminder for Thursday next week
+					else if curWeekDay = "Friday" then
+						set remindMeDate to (current date) + 6 * days
+					end if
+					
+					set time of remindMeDate to 60 * 60 * 9
+					
+				else if reminderDate = "1 Week" then
+					
+					set remindMeDate to (current date) + 10080 * minutes
+					
+				else if reminderDate = "1 Month" then
+					
+					set remindMeDate to (current date) + 43200 * minutes
+					
+				else if reminderDate = "3 Months" then
+					
+					set remindMeDate to (current date) + 129600 * minutes
+					
+				end if
+				
+				# find correct reminder based on subject and mark as complete
+				set theNeedle to last reminder whose body is theUrl and completed is false
+				set remind me date of theNeedle to remindMeDate
+				return
+			else if theButton is "Cancel" then
 				return
 			end if
 			
