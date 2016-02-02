@@ -11,4 +11,9 @@ Compared to his original I did the following modifications:
 - allowing to reschedule / set a new date for mails with existing reminder
 - simplying the configuration of the script
 
-For installation follow Michaels page while using the script here. 
+For installation follow Michaels page while using the script here. Basically you 
+
+- create in Automator a service with no input and only for Mail.app
+- add a step that executes AppleScript (and replace the given code by this one)
+- save it in ~/Library/Service with some useful name like "Create Reminder from Email"
+- and give it a Keyboard shortcut under System Preferences > Keyboard > Shortcuts > Services 
