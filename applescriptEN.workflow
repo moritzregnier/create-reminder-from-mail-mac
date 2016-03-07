@@ -1,23 +1,27 @@
 #
 # Title: Create reminder from selected Mail
-# Adapted by Moritz Regnier
-# Original by Michael Kummer and partly based on various code snippets I found online
-# www.michaelkummer.com
+#
+
+# Adapted and completed by Moritz Regnier
+# Based on work made by Michael Kummer and others
 # You can use the source as you wish but do so at your own risk
 # Have a backup of your data to avoid accidental loss
-# Last update: 2016-01-30
-# Version: 0.1
+
+# Last update: 2016-03-07
+# Version: 0.2
 # Tested on OS X 10.11.3 El Capitan
-#
+
 # Description
 # When installed as a Service, this AppleScript script can be used to automatically create a reminder (in pre-defined Reminder lists)
 # from a selected email and flag the email.
 # If you run the script against an email that matches an existing reminder it can mark the reminder as completed and clear the flag in Mail
-#
+
 # Contributors and sources
 # Rick0713 at https://discussions.apple.com/thread/3435695?start=30&tstart=0
 # http://www.macosxautomation.com/applescript/sbrt/sbrt-06.html
 # http://www.michaelkummer.com/2014/03/18/how-to-create-a-reminder-from-an-e-mail/
+
+##################################################################################
 
 # Set this according to your email account names and Reminder's lists
 # Depending on your needs multiple accounts can send reminders to one or more reminder lists
@@ -34,7 +38,7 @@ set Personal3RemindersList to "Privat"
 set Personal4AccountName to "PrivatOther"
 set Personal4RemindersList to "Privat"
 
-# Set the name of the default reminder list (depends on your OS Language"
+# Set the name of the default reminder list (depends on your OS Language)
 set DefaultReminderList to "Reminders"
 
 # On my machine 5 is the Purple flag, which is the color I would like to use for mails flagged as Reminder
@@ -90,7 +94,7 @@ tell application "Mail"
 				# set the new reminder date
 				
 				# present user with a list of follow-up times (in minutes)
-				(choose from list {"Tomorrow", "2 Days", "End of Week", "1 Week", "1 Month", "3 Months"} default items "End of Week" OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
+				(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items "End of Week" OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
 				
 				set reminderDate to result as text
 				
@@ -103,9 +107,14 @@ tell application "Mail"
 					set time of remindMeDate to 60 * 60 * 9
 					
 				else if reminderDate = "2 Days" then
-					
 					set remindMeDate to (current date) + 2880 * minutes
 					
+				else if reminderDate = "3 Days" then
+					set remindMeDate to (current date) + 4320 * minutes
+
+				else if reminderDate = "4 Days" then
+					set remindMeDate to (current date) + 5760 * minutes
+										
 				else if reminderDate = "End of Week" then
 					# end of week means Thursday in terms of reminders
 					# get the current day of the week
@@ -127,15 +136,18 @@ tell application "Mail"
 					set time of remindMeDate to 60 * 60 * 9
 					
 				else if reminderDate = "1 Week" then
-					
 					set remindMeDate to (current date) + 10080 * minutes
 					
-				else if reminderDate = "1 Month" then
+				else if reminderDate = "2 Weeks" then
+					set remindMeDate to (current date) + 20160 * minutes
 					
+				else if reminderDate = "1 Month" then
 					set remindMeDate to (current date) + 43200 * minutes
 					
-				else if reminderDate = "3 Months" then
+				else if reminderDate = "2 Months" then
+					set remindMeDate to (current date) + 86400 * minutes
 					
+				else if reminderDate = "3 Months" then
 					set remindMeDate to (current date) + 129600 * minutes
 					
 				end if
@@ -152,7 +164,7 @@ tell application "Mail"
 	end tell
 	
 	# present user with a list of follow-up times (in minutes)
-	(choose from list {"Tomorrow", "2 Days", "End of Week", "1 Week", "1 Month", "3 Months"} default items "End of Week" OK button name "Create" with prompt "Set follow-up time" with title "Create Reminder from E-Mail")
+	(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items "End of Week" OK button name "Create" with prompt "Set follow-up time" with title "Create Reminder from E-Mail")
 	
 	set reminderDate to result as rich text
 	
@@ -165,9 +177,14 @@ tell application "Mail"
 		set time of remindMeDate to 60 * 60 * 9
 		
 	else if reminderDate = "2 Days" then
-		
 		set remindMeDate to (current date) + 2880 * minutes
 		
+	else if reminderDate = "3 Days" then
+		set remindMeDate to (current date) + 4320 * minutes
+
+	else if reminderDate = "4 Days" then
+		set remindMeDate to (current date) + 5760 * minutes
+							
 	else if reminderDate = "End of Week" then
 		# end of week means Thursday in terms of reminders
 		# get the current day of the week
@@ -189,15 +206,18 @@ tell application "Mail"
 		set time of remindMeDate to 60 * 60 * 9
 		
 	else if reminderDate = "1 Week" then
-		
 		set remindMeDate to (current date) + 10080 * minutes
 		
-	else if reminderDate = "1 Month" then
+	else if reminderDate = "2 Weeks" then
+		set remindMeDate to (current date) + 20160 * minutes
 		
+	else if reminderDate = "1 Month" then
 		set remindMeDate to (current date) + 43200 * minutes
 		
-	else if reminderDate = "3 Months" then
+	else if reminderDate = "2 Months" then
+		set remindMeDate to (current date) + 86400 * minutes
 		
+	else if reminderDate = "3 Months" then
 		set remindMeDate to (current date) + 129600 * minutes
 		
 	end if
