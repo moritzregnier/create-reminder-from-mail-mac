@@ -1,14 +1,12 @@
-#
+#################################################################################
 # Title: Create reminder from selected Mail
-#
+#################################################################################
 
-# Adapted and completed by Moritz Regnier
-# Based on work made by Michael Kummer and others
-# You can use the source as you wish but do so at your own risk
-# Have a backup of your data to avoid accidental loss
+# Use at your own risk and responsibility
+# Backup your data before use
 
 # Last update: 2016-03-07
-# Version: 0.2
+# Version: 0.3
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -21,7 +19,9 @@
 # http://www.macosxautomation.com/applescript/sbrt/sbrt-06.html
 # http://www.michaelkummer.com/2014/03/18/how-to-create-a-reminder-from-an-e-mail/
 
-##################################################################################
+#################################################################################
+# Configuration
+#################################################################################
 
 # Set this according to your email account names and Reminder's lists
 # Depending on your needs multiple accounts can send reminders to one or more reminder lists
@@ -44,6 +44,14 @@ set DefaultReminderList to "Reminders"
 # On my machine 5 is the Purple flag, which is the color I would like to use for mails flagged as Reminder
 # choose something between 1 and 6
 set FlagIndex to 5
+
+# set the default reminder date
+# these are the possible choices: "Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"
+set defaultReminder to "1 Week"
+
+#################################################################################
+# Script
+#################################################################################
 
 tell application "Mail"
 	set theSelection to selection
@@ -94,63 +102,15 @@ tell application "Mail"
 				# set the new reminder date
 				
 				# present user with a list of follow-up times (in minutes)
-				(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items "End of Week" OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
+				(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items defaultReminder OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
 				
 				set reminderDate to result as text
 				
 				# Exit if user clicks Cancel
 				if reminderDate is "false" then return
 				
-				if reminderDate = "Tomorrow" then
-					# add 1 day and set time to 9h into the day = 9am
-					set remindMeDate to (current date) + 1 * days
-					set time of remindMeDate to 60 * 60 * 9
-					
-				else if reminderDate = "2 Days" then
-					set remindMeDate to (current date) + 2880 * minutes
-					
-				else if reminderDate = "3 Days" then
-					set remindMeDate to (current date) + 4320 * minutes
-
-				else if reminderDate = "4 Days" then
-					set remindMeDate to (current date) + 5760 * minutes
-										
-				else if reminderDate = "End of Week" then
-					# end of week means Thursday in terms of reminders
-					# get the current day of the week
-					set curWeekDay to weekday of (current date) as string
-					if curWeekDay = "Monday" then
-						set remindMeDate to (current date) + 3 * days
-					else if curWeekDay = "Tuesday" then
-						set remindMeDate to (current date) + 2 * days
-					else if curWeekDay = "Wednesday" then
-						set remindMeDate to (current date) + 1 * days
-						# if it's Thursday, I'll set the reminder for Friday
-					else if curWeekDay = "Thursday" then
-						set remindMeDate to (current date) + 1 * days
-						# if it's Friday I'll set the reminder for Thursday next week
-					else if curWeekDay = "Friday" then
-						set remindMeDate to (current date) + 6 * days
-					end if
-					
-					set time of remindMeDate to 60 * 60 * 9
-					
-				else if reminderDate = "1 Week" then
-					set remindMeDate to (current date) + 10080 * minutes
-					
-				else if reminderDate = "2 Weeks" then
-					set remindMeDate to (current date) + 20160 * minutes
-					
-				else if reminderDate = "1 Month" then
-					set remindMeDate to (current date) + 43200 * minutes
-					
-				else if reminderDate = "2 Months" then
-					set remindMeDate to (current date) + 86400 * minutes
-					
-				else if reminderDate = "3 Months" then
-					set remindMeDate to (current date) + 129600 * minutes
-					
-				end if
+				# choose the reminder date
+				set remindMeDate to my chooseRemindMeDate(reminderDate)
 				
 				# find correct reminder based on subject and mark as complete
 				set theNeedle to last reminder whose body is theUrl and completed is false
@@ -164,63 +124,15 @@ tell application "Mail"
 	end tell
 	
 	# present user with a list of follow-up times (in minutes)
-	(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items "End of Week" OK button name "Create" with prompt "Set follow-up time" with title "Create Reminder from E-Mail")
+	(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items defaultReminder OK button name "Create" with prompt "Set follow-up time" with title "Create Reminder from E-Mail")
 	
 	set reminderDate to result as rich text
 	
 	# Exit if user clicks Cancel
 	if reminderDate is "false" then return
 	
-	if reminderDate = "Tomorrow" then
-		# add 1 day and set time to 9h into the day = 9am
-		set remindMeDate to (current date) + 1 * days
-		set time of remindMeDate to 60 * 60 * 9
-		
-	else if reminderDate = "2 Days" then
-		set remindMeDate to (current date) + 2880 * minutes
-		
-	else if reminderDate = "3 Days" then
-		set remindMeDate to (current date) + 4320 * minutes
-
-	else if reminderDate = "4 Days" then
-		set remindMeDate to (current date) + 5760 * minutes
-							
-	else if reminderDate = "End of Week" then
-		# end of week means Thursday in terms of reminders
-		# get the current day of the week
-		set curWeekDay to weekday of (current date) as string
-		if curWeekDay = "Monday" then
-			set remindMeDate to (current date) + 3 * days
-		else if curWeekDay = "Tuesday" then
-			set remindMeDate to (current date) + 2 * days
-		else if curWeekDay = "Wednesday" then
-			set remindMeDate to (current date) + 1 * days
-			# if it's Thursday, I'll set the reminder for Friday
-		else if curWeekDay = "Thursday" then
-			set remindMeDate to (current date) + 1 * days
-			# if it's Friday I'll set the reminder for Thursday next week
-		else if curWeekDay = "Friday" then
-			set remindMeDate to (current date) + 6 * days
-		end if
-		
-		set time of remindMeDate to 60 * 60 * 9
-		
-	else if reminderDate = "1 Week" then
-		set remindMeDate to (current date) + 10080 * minutes
-		
-	else if reminderDate = "2 Weeks" then
-		set remindMeDate to (current date) + 20160 * minutes
-		
-	else if reminderDate = "1 Month" then
-		set remindMeDate to (current date) + 43200 * minutes
-		
-	else if reminderDate = "2 Months" then
-		set remindMeDate to (current date) + 86400 * minutes
-		
-	else if reminderDate = "3 Months" then
-		set remindMeDate to (current date) + 129600 * minutes
-		
-	end if
+	# choose the reminder date
+	set remindMeDate to my chooseRemindMeDate(reminderDate)
 	
 	# Flag selected email/message in Mail
 	set flag index of theMessage to FlagIndex
@@ -264,6 +176,11 @@ tell application "Reminders"
 	
 end tell
 
+
+#################################################################################
+# Functions
+#################################################################################
+
 # string replace function
 # used to replace % with %25
 on replaceText(subject, find, replace)
@@ -277,3 +194,84 @@ on replaceText(subject, find, replace)
 	
 	return subject
 end replaceText
+
+# date calculation with the selection from the dialogue
+# use to set the initial and the re-scheduled date
+on chooseRemindMeDate(selectedDate)
+	if selectedDate = "Tomorrow" then
+		# add 1 day and set time to 9h into the day = 9am
+		set remindMeDate to (current date) + 1 * days
+		set time of remindMeDate to 60 * 60 * 9
+		
+	else if selectedDate = "2 Days" then
+		set remindMeDate to (current date) + 2 * days
+		
+	else if selectedDate = "3 Days" then
+		set remindMeDate to (current date) + 3 * days
+
+	else if selectedDate = "4 Days" then
+		set remindMeDate to (current date) + 4 * days
+							
+	else if selectedDate = "End of Week" then
+		# end of week means Thursday in terms of reminders
+		# get the current day of the week
+		set curWeekDay to weekday of (current date) as string
+		if curWeekDay = "Monday" then
+			set remindMeDate to (current date) + 3 * days
+		else if curWeekDay = "Tuesday" then
+			set remindMeDate to (current date) + 2 * days
+		else if curWeekDay = "Wednesday" then
+			set remindMeDate to (current date) + 1 * days
+			# if it's Thursday, I'll set the reminder for Friday
+		else if curWeekDay = "Thursday" then
+			set remindMeDate to (current date) + 1 * days
+			# if it's Friday I'll set the reminder for Thursday next week
+		else if curWeekDay = "Friday" then
+			set remindMeDate to (current date) + 6 * days
+		else if curWeekDay = "Saturday" then
+			set remindMeDate to (current date) + 5 * days
+		else if curWeekDay = "Sunday" then
+			set remindMeDate to (current date) + 4 * days
+		end if
+		
+		set time of remindMeDate to 60 * 60 * 9
+		
+	else if selectedDate = "Next Monday" then
+		set curWeekDay to weekday of (current date) as string
+		if curWeekDay = "Monday" then
+			set remindMeDate to (current date) + 7 * days
+		else if curWeekDay = "Tuesday" then
+			set remindMeDate to (current date) + 6 * days
+		else if curWeekDay = "Wednesday" then
+			set remindMeDate to (current date) + 5 * days
+		else if curWeekDay = "Thursday" then
+			set remindMeDate to (current date) + 4 * days
+		else if curWeekDay = "Friday" then
+			set remindMeDate to (current date) + 3 * days
+		else if curWeekDay = "Saturday" then
+			set remindMeDate to (current date) + 2 * days
+		else if curWeekDay = "Sunday" then
+			set remindMeDate to (current date) + 1 * days
+		end if
+		
+		set time of remindMeDate to 60 * 60 * 9
+		
+	else if selectedDate = "1 Week" then
+		set remindMeDate to (current date) + 7 * days
+		
+	else if selectedDate = "2 Weeks" then
+		set remindMeDate to (current date) + 14 * days
+		
+	else if selectedDate = "1 Month" then
+		set remindMeDate to (current date) + 28 * days
+		
+	else if selectedDate = "2 Months" then
+		set remindMeDate to (current date) + 56 * days
+		
+	else if selectedDate = "3 Months" then
+		set remindMeDate to (current date) + 84 * days
+		
+	end if
+	
+	return remindMeDate
+end chooseRemindMeDate
