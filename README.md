@@ -20,16 +20,16 @@ Compared to his original I did the following modifications:
 
 ### Screenshots
 
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder01.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder02.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder03.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder04.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder05.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder06.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder07.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder08.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder09.jpg)  
-![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/cbecbb99b277e8fe243e69364ee5de92efbcd68e/screenshots/emailreminder10.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder01.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder02.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder03.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder04.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder05.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder06.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder07.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder08.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder09.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder10.jpg)  
 
 ### Installation
 
