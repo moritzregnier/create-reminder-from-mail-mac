@@ -5,7 +5,7 @@
 # Use at your own risk and responsibility
 # Backup your data before use
 
-# Last update: 2016-03-07
+# Last update: 2016-03-14
 # Version: 0.4.1
 # Tested on OS X 10.11.3 El Capitan
 
