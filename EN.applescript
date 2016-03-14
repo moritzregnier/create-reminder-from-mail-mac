@@ -6,7 +6,7 @@
 # Backup your data before use
 
 # Last update: 2016-03-07
-# Version: 0.4
+# Version: 0.4.1
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -65,7 +65,7 @@ set Personal3Archive to "Archive"
 #################################################################################
 
 tell application "Mail"
-	set theSelection to selection
+	set theSelection to selection as list
 	# do nothing if no email is selected in Mail
 	try
 		set theMessage to item 1 of theSelection
@@ -174,7 +174,6 @@ tell application "Mail"
 		#default list name in Reminders
 		set RemindersList to DefaultReminderList
 	end if
-	
 	
 	# dispatch the mailbox where to archive the selected message
 	if switchArchive is "on" then

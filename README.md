@@ -39,4 +39,7 @@ For installation follow Michaels page while using the script here. Basically you
 - save it in ~/Library/Service with some useful name like "Create Reminder from Email"
 - and give it a Keyboard shortcut under System Preferences > Keyboard > Shortcuts > Services 
 
+Find a step by step description on [mackungfu.org](http://www.mackungfu.org/create-email-reminders-within-email-app).
+
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/workflow.png)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/keyboardshortcut.png)  
