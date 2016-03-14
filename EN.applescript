@@ -6,7 +6,7 @@
 # Backup your data before use
 
 # Last update: 2016-03-07
-# Version: 0.3
+# Version: 0.4
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -48,6 +48,17 @@ set FlagIndex to 5
 # set the default reminder date
 # these are the possible choices: "Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"
 set defaultReminder to "1 Week"
+
+# switch 'auto-achive' "on" or "off"
+set switchArchive to "on"
+
+# set the archive target mailbox
+set Work1Archive to "Archive"
+set Work2Archive to "Archive"
+set Personal1Archive to "Archive"
+set Personal2Archive to "Archive"
+set Personal3Archive to "Archive"
+set Personal3Archive to "Archive"
 
 #################################################################################
 # Script
@@ -162,6 +173,24 @@ tell application "Mail"
 	else
 		#default list name in Reminders
 		set RemindersList to DefaultReminderList
+	end if
+	
+	
+	# dispatch the mailbox where to archive the selected message
+	if switchArchive is "on" then
+		if name of account of mailbox of theMessage is Work1AccountName then
+			move theMessage to mailbox Work1Archive of account Work1AccountName
+		else if name of account of mailbox of theMessage is Work2AccountName then
+			move theMessage to mailbox Work2Archive of account Work2AccountName
+		else if name of account of mailbox of theMessage is Personal1AccountName then
+			move theMessage to mailbox Personal1Archive of account Personal1AccountName
+		else if name of account of mailbox of theMessage is Personal2AccountName then
+			move theMessage to mailbox Personal2Archive of account Personal2AccountName
+		else if name of account of mailbox of theMessage is Personal3AccountName then
+			move theMessage to mailbox Personal3Archive of account Personal3AccountName
+		else if name of account of mailbox of theMessage is Personal4AccountName then
+			move theMessage to mailbox Personal4Archive of account Personal4AccountName
+		end if
 	end if
 	
 end tell
