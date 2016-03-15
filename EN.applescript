@@ -5,8 +5,8 @@
 # Use at your own risk and responsibility
 # Backup your data before use
 
-# Last update: 2016-03-14
-# Version: 0.4.1
+# Last update: 2016-03-15
+# Version: 0.4.2
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -49,6 +49,10 @@ set FlagIndex to 5
 # these are the possible choices: "Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"
 set defaultReminder to "1 Week"
 
+# set the default reminder time in hours after midnight, I suggest any number between 0,5 and 23,5
+# for a reminder at "8:00 am" set "8", for "3 PM" or "15:00" set "15", for "8h30" set "8,5"
+set defaultReminderTime to "8,75"
+
 # switch 'auto-achive' "on" or "off"
 set switchArchive to "on"
 
@@ -79,11 +83,13 @@ tell application "Mail"
 	
 	# display a dialog to ask for the reminder title
 	if flag index of theMessage is not FlagIndex then
-		display dialog "Create a reminder with the following title: '" & theSubject & "' or choose 'Other'" with title "Choose a title for the reminder" buttons {"Other", "OK"} default button 2
+		display dialog "Create a reminder with the following title: '" & theSubject & "' or choose 'Other'" with title "Choose a title for the reminder" buttons {"Other", "Cancel", "OK"} default button 3
 		
 		set theSubjectChoice to button returned of result
 		if theSubjectChoice is "OK" then
 			set theSubject to theMessage's subject
+		else if theSubjectChoice is "Cancel" then
+			return
 		else if theSubjectChoice is "Other" then
 			set theSubject to text returned of (display dialog "Choose a title:" default answer "")
 		end if
@@ -144,6 +150,7 @@ tell application "Mail"
 	
 	# choose the reminder date
 	set remindMeDate to my chooseRemindMeDate(reminderDate)
+	set time of remindMeDate to 60 * 60 * defaultReminderTime
 	
 	# Flag selected email/message in Mail
 	set flag index of theMessage to FlagIndex
@@ -229,17 +236,16 @@ on chooseRemindMeDate(selectedDate)
 	if selectedDate = "Tomorrow" then
 		# add 1 day and set time to 9h into the day = 9am
 		set remindMeDate to (current date) + 1 * days
-		set time of remindMeDate to 60 * 60 * 9
 		
 	else if selectedDate = "2 Days" then
 		set remindMeDate to (current date) + 2 * days
 		
 	else if selectedDate = "3 Days" then
 		set remindMeDate to (current date) + 3 * days
-
+		
 	else if selectedDate = "4 Days" then
 		set remindMeDate to (current date) + 4 * days
-							
+		
 	else if selectedDate = "End of Week" then
 		# end of week means Thursday in terms of reminders
 		# get the current day of the week
@@ -262,8 +268,6 @@ on chooseRemindMeDate(selectedDate)
 			set remindMeDate to (current date) + 4 * days
 		end if
 		
-		set time of remindMeDate to 60 * 60 * 9
-		
 	else if selectedDate = "Next Monday" then
 		set curWeekDay to weekday of (current date) as string
 		if curWeekDay = "Monday" then
@@ -281,8 +285,6 @@ on chooseRemindMeDate(selectedDate)
 		else if curWeekDay = "Sunday" then
 			set remindMeDate to (current date) + 1 * days
 		end if
-		
-		set time of remindMeDate to 60 * 60 * 9
 		
 	else if selectedDate = "1 Week" then
 		set remindMeDate to (current date) + 7 * days

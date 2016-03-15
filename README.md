@@ -10,11 +10,13 @@ Create a reminder from a selected email message. The script supports
 
 Compared to his original I did the following modifications:
 
-- support for six email accounts (e.g. 2x work, 4x personal accounts) instead of 2
+- support for six email accounts (e.g. 2x work, 4x personal accounts or whatever) instead of 2
 - an optional modification dialog for a custom title instead of only the messages subject
 - identification of an existing reminder based on the unique message id instead of the subject
 - allowing to reschedule / set a new date for mails with existing reminder
 - extended the list of possible reminder dates
+- configure the reminder time
+- switch on/off auto-archiving
 - simplying the configuration of the script
 
 ### Screenshots
