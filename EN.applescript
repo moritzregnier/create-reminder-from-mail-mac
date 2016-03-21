@@ -6,7 +6,7 @@
 # Backup your data before use
 
 # Last update: 2016-03-15
-# Version: 0.4.2
+# Version: 0.4.3
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -50,9 +50,11 @@ set FlagIndex to 5
 set defaultReminder to "1 Week"
 
 # set the default reminder time in hours after midnight, I suggest any number between 0,5 and 23,5
-# for a reminder at "8:00 am" set "8", for "3 PM" or "15:00" set "15", for "8h30" set "8,5"
-set defaultReminderTime to "8,75"
+# for a reminder at "8:00 am" set "8", for "3 PM" or "15:00" set "15", for "8h45" set "8,75"
+set defaultReminderTime to "9"
 
+# for 'zero-mail' inbox: if this switch is set 'on' it will move the message automatically to the archive once a reminder has been set,
+# set to 'off' if you want to keep the message where it is 
 # switch 'auto-achive' "on" or "off"
 set switchArchive to "on"
 
@@ -128,6 +130,7 @@ tell application "Mail"
 				
 				# choose the reminder date
 				set remindMeDate to my chooseRemindMeDate(reminderDate)
+				set time of remindMeDate to 60 * 60 * defaultReminderTime
 				
 				# find correct reminder based on subject and mark as complete
 				set theNeedle to last reminder whose body is theUrl and completed is false
