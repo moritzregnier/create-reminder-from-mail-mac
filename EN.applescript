@@ -6,7 +6,7 @@
 # Backup your data before use
 
 # Last update: 2016-03-15
-# Version: 0.4.3
+# Version: 0.4.4
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -45,20 +45,20 @@ set DefaultReminderList to "Reminders"
 # choose something between 1 and 6
 set FlagIndex to 5
 
-# set the default reminder date
+# Set the default reminder date
 # these are the possible choices: "Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"
 set defaultReminder to "1 Week"
 
-# set the default reminder time in hours after midnight, I suggest any number between 0,5 and 23,5
+# Set the default reminder time in hours after midnight, I suggest any number between 0,5 and 23,5
 # for a reminder at "8:00 am" set "8", for "3 PM" or "15:00" set "15", for "8h45" set "8,75"
 set defaultReminderTime to "9"
 
-# for 'zero-mail' inbox: if this switch is set 'on' it will move the message automatically to the archive once a reminder has been set,
-# set to 'off' if you want to keep the message where it is 
+# For 'zero-mail' inbox: if this switch is set 'on' it will move the message automatically to the archive once a reminder has been set,
+# Set to 'off' if you want to keep the message where it is 
 # switch 'auto-achive' "on" or "off"
 set switchArchive to "on"
 
-# set the archive target mailbox
+# Set the archive target mailbox
 set Work1Archive to "Archive"
 set Work2Archive to "Archive"
 set Personal1Archive to "Archive"
@@ -93,7 +93,7 @@ tell application "Mail"
 		else if theSubjectChoice is "Cancel" then
 			return
 		else if theSubjectChoice is "Other" then
-			set theSubject to text returned of (display dialog "Choose a title:" default answer "")
+			set theSubject to text returned of (display dialog "Choose a title:" default answer theSubject)
 		end if
 	end if
 	
