@@ -6,7 +6,7 @@
 # Backup your data before use
 
 # Last update: 2016-03-15
-# Version: 0.4.4
+# Version: 0.5.0
 # Tested on OS X 10.11.3 El Capitan
 
 # Description
@@ -46,7 +46,7 @@ set DefaultReminderList to "Reminders"
 set FlagIndex to 5
 
 # Set the default reminder date
-# these are the possible choices: "Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"
+# these are the possible choices: "Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months", "Specify"
 set defaultReminder to "1 Week"
 
 # Set the default reminder time in hours after midnight, I suggest any number between 0,5 and 23,5
@@ -83,20 +83,6 @@ tell application "Mail"
 	set theOrigMessageId to theMessage's message id
 	set theUrl to {"message:%3C" & my replaceText(theOrigMessageId, "%", "%25") & "%3E"}
 	
-	# display a dialog to ask for the reminder title
-	if flag index of theMessage is not FlagIndex then
-		display dialog "Create a reminder with the following title: '" & theSubject & "' or choose 'Other'" with title "Choose a title for the reminder" buttons {"Other", "Cancel", "OK"} default button 3
-		
-		set theSubjectChoice to button returned of result
-		if theSubjectChoice is "OK" then
-			set theSubject to theMessage's subject
-		else if theSubjectChoice is "Cancel" then
-			return
-		else if theSubjectChoice is "Other" then
-			set theSubject to text returned of (display dialog "Choose a title:" default answer theSubject)
-		end if
-	end if
-	
 	# Make sure reminder doesn't already exist so we don't create duplicates
 	tell application "Reminders"
 		set theNeedlesName to name of reminders whose body is theUrl and completed is false
@@ -121,7 +107,7 @@ tell application "Mail"
 				# set the new reminder date
 				
 				# present user with a list of follow-up times (in minutes)
-				(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items defaultReminder OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
+				(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months", "Specify"} default items defaultReminder OK button name "Set new date" with prompt "Set follow-up time" with title "Set new reminder date")
 				
 				set reminderDate to result as text
 				
@@ -143,16 +129,32 @@ tell application "Mail"
 		end if
 	end tell
 	
+	# display a dialog to ask for the reminder title
+	if flag index of theMessage is not FlagIndex then
+		display dialog "Create a reminder with the following title: '" & theSubject & "' or choose 'Other'" with title "Choose a title for the reminder" buttons {"Other", "Cancel", "OK"} default button 3
+		
+		set theSubjectChoice to button returned of result
+		if theSubjectChoice is "OK" then
+			set theSubject to theMessage's subject
+		else if theSubjectChoice is "Cancel" then
+			return
+		else if theSubjectChoice is "Other" then
+			set theSubject to text returned of (display dialog "Choose a title:" default answer theSubject)
+		end if
+	end if
+	
 	# present user with a list of follow-up times (in minutes)
-	(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months"} default items defaultReminder OK button name "Create" with prompt "Set follow-up time" with title "Create Reminder from E-Mail")
+	(choose from list {"Tomorrow", "2 Days", "3 Days", "4 Days", "End of Week", "Next Monday", "1 Week", "2 Weeks", "1 Month", "2 Months", "3 Months", "Specify"} default items defaultReminder OK button name "Create" with prompt "Set follow-up time" with title "Create Reminder from E-Mail")
 	
 	set reminderDate to result as rich text
-	
-	# Exit if user clicks Cancel
+
+	# exit if user clicks Cancel or Escape
 	if reminderDate is "false" then return
 	
-	# choose the reminder date
+	# for all the other options, calculate the date based on the current date
 	set remindMeDate to my chooseRemindMeDate(reminderDate)
+	
+	# set the time for on the reminder date
 	set time of remindMeDate to 60 * 60 * defaultReminderTime
 	
 	# Flag selected email/message in Mail
@@ -304,6 +306,16 @@ on chooseRemindMeDate(selectedDate)
 	else if selectedDate = "3 Months" then
 		set remindMeDate to (current date) + 84 * days
 		
+	else if selectedDate = "Specify" then
+		# adapt the date format suggested with what is configured in the user's 'Language/Region'-Preferences
+		set theDateSuggestion to (short date string of (current date))
+		set theDateInput to text returned of (display dialog "Type the date for the reminder (e.g. '" & theDateSuggestion & "'):" default answer theDateSuggestion buttons {"Cancel", "OK"} default button "OK")
+		try
+			set remindMeDate to date theDateInput
+		on error
+			set remindMeDate to (current date) + 1 * days
+			(display dialog "There was an error with the date input provided: '" & theDateInput & "'. The reminder was set to tomorrow." with title "Error: '" & theDateInput & "'")
+		end try
 	end if
 	
 	return remindMeDate

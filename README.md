@@ -15,7 +15,7 @@ Compared to his original I did the following modifications:
 - identification of an existing reminder based on the unique message id instead of the subject
 - allowing to reschedule / set a new date for mails with existing reminder
 - extended the list of possible reminder dates
-- configure the reminder time
+- configure the default reminder time
 - switch on/off auto-archiving
 - simplying the configuration of the script
 
