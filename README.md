@@ -25,6 +25,8 @@ Compared to his original I did the following modifications:
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder02.jpg)  
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder03.jpg)  
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder04.jpg)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder04b.png)  
+![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder04c.png)  
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder05.jpg)  
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder06.jpg)  
 ![](https://github.com/moritzregnier/create-reminder-from-mail-mac/blob/master/screenshots/emailreminder07.jpg)  
